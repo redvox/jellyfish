@@ -1,0 +1,10 @@
+{
+  "testPathDirs": ["src/js/"],
+  "testRegex" : ".*.test.js$",
+  "moduleFileExtensions" : ["js", "json"],
+
+  "moduleNameMapper": {
+      "^.+\\.(css|less|sass)$": "<rootDir>/src/js/testsupport/styleMock.js",
+      "^.+\\.(gif|ttf|eot|svg|png|ico)$": "<rootDir>/src/js/testsupport/fileMock.js"
+    }
+}
