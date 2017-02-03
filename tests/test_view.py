@@ -24,21 +24,6 @@ class TestView(unittest.TestCase):
         config.rdb.flushall()
         config.rdb.flushdb()
 
-    def test_get_state(self):
-        config.rdb.flushall()
-        config.rdb.set('/mammal/cat', json.dumps({'info': 'mammal'}))
-        config.rdb.set('/fish/salmon', json.dumps({'info': 'fish'}))
-        config.rdb.sadd('all-services', '/mammal/cat', '/fish/salmon')
-
-        self.assertCountEqual([DotMap(info='mammal'), DotMap(info='fish')], views.get_all_apps())
-
-    def test_get_state_with_non_existent_app(self):
-        config.rdb.set('/mammal/cat', json.dumps({'info': 'mammal'}))
-        config.rdb.set('/fish/salmon', json.dumps({'info': 'fish'}))
-        config.rdb.sadd('all-services', '/mammal/cat', '/fish/salmon', 'banana/pyjama')
-
-        self.assertCountEqual([DotMap(info='mammal'), DotMap(info='fish')], views.get_all_apps())
-
     def test_filter(self):
         self.assertEqual(True, views.filter(name="dog", include=[], exclude=[]))
         self.assertEqual(True, views.filter(name="dog", include=["dog", "cat"], exclude=[]))

@@ -6,21 +6,12 @@ from flask import request, url_for, jsonify, Blueprint, redirect
 
 from app import config
 from app import view_util
+from app import util
 from app.update import get_in_dict
 
 logger = logging.getLogger('views')
 
 blueprint = Blueprint('views', __name__)
-
-
-def get_all_apps():
-    apps = config.rdb.smembers("all-services") or []
-    app_list = list()
-    for app in apps:
-        raw_app = config.rdb.get(app)
-        if raw_app:
-            app_list.append(json.loads(raw_app.decode()))
-    return app_list
 
 
 def get_error_messages(app_list):
@@ -190,7 +181,7 @@ def monitor(cinema_mode=False):
     include_age = request.args.get('status_age', "true") == 'true'
     auto_refresh = request.args.get('refresh', False)
 
-    app_list = get_all_apps()
+    app_list = util.get_all_apps()
     filtered_apps = filter_state(app_list=app_list,
                                  name_filter=name_filter,
                                  group_filter=group_filter,
@@ -205,53 +196,91 @@ def monitor(cinema_mode=False):
 
     return view_util.render("jellyfish.html",
                             "Jellyfish",
-                            state=transformed_data,
-                            services_by_severity=list_services_by_severity(transformed_data),
-                            vertical_ressources=vertical_resource_allocation,
-                            app_ressources=app_resource_allocation,
-                            tabs=get_tabs(app_list),
-                            errors=get_error_messages(app_list),
-                            environments=filter_environments(config.config["environments"],
-                                                             env_filter),
-                            cinema_mode=cinema_mode,
-                            auto_refresh=auto_refresh)
+           << << << < 73
+    a04d39a6447280c02c71309c999abb48f5e166
+    state = transformed_data,
+            services_by_severity = list_services_by_severity(transformed_data),
+    == == == =
+    state = util.transform_to_display_data(filtered_apps),
+    >> >> >> > Add
+    api
+    prototype
+    vertical_ressources = vertical_resource_allocation,
+                          app_ressources = app_resource_allocation,
+                                           tabs = get_tabs(app_list),
+                                                  errors = get_error_messages(app_list),
+                                                           environments = filter_environments(
+        config.config["environments"],
+        env_filter),
+                                                                          cinema_mode = cinema_mode,
+                                                                                        auto_refresh = auto_refresh)
 
+    << << << < 73
+    a04d39a6447280c02c71309c999abb48f5e166
+    == == == =
+    @blueprint.route('/resourcen', methods=['GET'])
+    def resourcen(cinema_mode=False):
+        group_filter, name_filter, status_filter, type_filter, env_filter = get_filter_values()
 
-def get_filter_values():
-    name_filter = request.args.get('filter', False)
-    group_filter = request.args.get('group', False)
-    type_filter = request.args.get('type', False)
-    env_filter = request.args.get('env', False)
-    status_filter = int(request.args.get('level', 0))
-    if name_filter:
-        name_filter = name_filter.split(",")
-    if group_filter:
-        group_filter = group_filter.split(",")
-    if env_filter:
-        env_filter = env_filter.split(",")
-    if type_filter:
-        type_filter = type_filter.split(",")
-    return group_filter, name_filter, status_filter, type_filter, env_filter
+        app_list = util.get_all_apps()
+        filtered_apps = filter_state(app_list=app_list,
+                                     name_filter=name_filter,
+                                     group_filter=group_filter,
+                                     type_filter=type_filter,
+                                     active_color_only_filter=False,
+                                     status_filter=status_filter,
+                                     include_jobs=False,
+                                     include_age=False,
+                                     env_filter=env_filter)
+        vertical_resource_allocation, app_resource_allocation = get_app_resource_allocation(app_list)
 
+        return view_util.render("resourcen.html",
+                                "Jellyfish",
+                                state=util.transform_to_display_data(filtered_apps),
+                                vertical_ressources=vertical_resource_allocation,
+                                app_ressources=app_resource_allocation,
+                                tabs=get_tabs(app_list),
+                                errors=get_error_messages(app_list),
+                                environments=filter_environments(config.config["environments"],
+                                                                 env_filter),
+                                cinema_mode=cinema_mode)
 
-@blueprint.route('/monitor/cinema', methods=['GET'])
-def toggles_cinema():
-    return monitor(cinema_mode=True)
+    >> >> >> > Add
+    api
+    prototype
 
+    def get_filter_values():
+        name_filter = request.args.get('filter', False)
+        group_filter = request.args.get('group', False)
+        type_filter = request.args.get('type', False)
+        env_filter = request.args.get('env', False)
+        status_filter = int(request.args.get('level', 0))
+        if name_filter:
+            name_filter = name_filter.split(",")
+        if group_filter:
+            group_filter = group_filter.split(",")
+        if env_filter:
+            env_filter = env_filter.split(",")
+        if type_filter:
+            type_filter = type_filter.split(",")
+        return group_filter, name_filter, status_filter, type_filter, env_filter
 
-@blueprint.errorhandler(404)
-def not_found(error=None):
-    message = {
-        'status': 404,
-        'message': 'Not Found: ' + request.url,
-    }
-    resp = jsonify(message)
-    resp.status_code = 404
+    @blueprint.route('/monitor/cinema', methods=['GET'])
+    def toggles_cinema():
+        return monitor(cinema_mode=True)
 
-    return resp
+    @blueprint.errorhandler(404)
+    def not_found(error=None):
+        message = {
+            'status': 404,
+            'message': 'Not Found: ' + request.url,
+        }
+        resp = jsonify(message)
+        resp.status_code = 404
 
+        return resp
 
-def error_page(error):
-    return view_util.render("error.html",
-                            "Error",
-                            error=error)
+    def error_page(error):
+        return view_util.render("error.html",
+                                "Error",
+                                error=error)

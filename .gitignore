@@ -28,3 +28,5 @@ ghostdriver.log
 .DS_Store
 *.patch
 local.yaml
+
+node_modules
