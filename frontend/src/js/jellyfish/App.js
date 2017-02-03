@@ -6,9 +6,10 @@ import {Provider} from "react-redux";
 import * as JellyfishStore from "./AppState";
 import "../../thirdparty/css/darkly/bootstrap.css";
 import "../../css/jellyfish.css";
+import {Connection} from "./Connection.js";
 
 let appStore;
-let backend;
+let connection;
 
 export class Jellyfish {
 
@@ -16,13 +17,13 @@ export class Jellyfish {
         return appStore;
     }
 
-    backend(){
-        return backend;
+    connection(){
+        return connection;
     }
 
     startUp() {
         appStore = JellyfishStore.createJellyfishStore();
-        backend = new Backend();
+        connection = new Connection();
 
         const rootElement = document.getElementById("entryPoint");
         ReactDOM.render(
