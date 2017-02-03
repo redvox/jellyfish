@@ -32,5 +32,17 @@ else
         "docs")
             ${BASE_DIR}/../docs/build.sh
             ;;
+        "f-run")
+            cd ${BASE_DIR}/../frontend/
+            npm start
+            ;;
+        "f-test")
+            cd ${BASE_DIR}/../frontend/
+            npm run watch:test
+            ;;
+        "f-setup")
+            cd ${BASE_DIR}/../frontend/
+            npm install
+            ;;
         esac
 fi
