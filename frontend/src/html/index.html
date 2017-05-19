@@ -8,6 +8,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.rawgit.com/ConnorAtherton/loaders.css/master/loaders.min.css">
     <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">-->
     <!--<link rel="stylesheet" href="thirdparty/fontawesome/css/font-awesome.min.css">-->
@@ -15,9 +17,42 @@
     <link rel="icon" type="image/png" href="images/favicon.png">
 
 </head>
-<body>
+<style>
+    .loader_text {
+        font-family: "Raleway";
+        color: white;
+        padding: 20px;
+    }
 
-<div id="entryPoint">Loading Jellyfish.</div>
+    .center_loader {
+        position: absolute;
+        width: 300px;
+        height: 200px;
+        z-index: 15;
+        top: 50%;
+        left: 50%;
+        margin: -100px 0 0 -150px;
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+<body>
+<div id="entryPoint" style="background: #375a7f">
+    <div class="center_loader">
+        <div class="loader_text">
+            Loading Jellyfish...
+        </div>
+        <div class="loader">
+            <div class="line-scale">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="config.js"></script>
 <script type="text/javascript" src="bundle.js"></script>
 </body>

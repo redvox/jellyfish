@@ -29,7 +29,7 @@ export class Jellyfish {
         const rootElement = document.getElementById("entryPoint");
         ReactDOM.render(
             <Provider store={appStore}>
-                <div>
+                <div className="app_background">
                     <Header links={["Test1", "Test2"]}/>
                     <GroupNavigation groups={["group_a", "group_b"]}/>
                 </div>
