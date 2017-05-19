@@ -2,6 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import GroupNavigation from "./GroupNavigation.js";
+import Header from "./Header.js";
 import {Provider} from "react-redux";
 import * as JellyfishStore from "./AppState";
 import "../../thirdparty/css/darkly/bootstrap.css";
@@ -13,11 +14,11 @@ let connection;
 
 export class Jellyfish {
 
-    appStore(){
+    appStore() {
         return appStore;
     }
 
-    connection(){
+    connection() {
         return connection;
     }
 
@@ -28,7 +29,10 @@ export class Jellyfish {
         const rootElement = document.getElementById("entryPoint");
         ReactDOM.render(
             <Provider store={appStore}>
-                <GroupNavigation groups={["group_a", "group_b"]}/>
+                <div>
+                    <Header links={["Test1", "Test2"]}/>
+                    <GroupNavigation groups={["group_a", "group_b"]}/>
+                </div>
             </Provider>, rootElement);
     }
 }
