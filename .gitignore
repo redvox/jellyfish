@@ -30,3 +30,4 @@ ghostdriver.log
 local.yaml
 
 node_modules
+npm-debug.log
